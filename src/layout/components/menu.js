@@ -16,7 +16,7 @@ class GlobalMenu extends React.Component {
         key: '1-2'
       }]
     }, {
-      name: '其他管理',
+      name: '其他',
       icon: 'pie-chart',
       key: '2',
     }]
