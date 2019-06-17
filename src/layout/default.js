@@ -3,13 +3,8 @@ import { HashRouter as Router, Route, Link } from "react-router-dom"
 import { Layout, Icon } from 'antd'
 import GlobalMenu from './components/menu'
 import './default.css'
+import About from 'views/About'
 const { Header, Sider, Content } = Layout
-
-class About extends React.Component{
-  render() {
-    return <h3>About</h3>
-  }
-}
 
 class GlobalLayout extends React.Component {
   state = {

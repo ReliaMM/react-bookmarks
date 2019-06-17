@@ -1,15 +1,18 @@
 import 'core-js/es/set'
 import 'core-js/es/map'
-import 'react-app-polyfill/ie9';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import 'react-app-polyfill/ie9'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import GlobalLayout from './layout/default'
+import './assets/styles/common.scss'
+class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <GlobalLayout />
+      </div>
+    )
+  }
+}
 
-ReactDOM.render( < App / > , document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+ReactDOM.render( < App/ > , document.getElementById('root'))
