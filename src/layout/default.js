@@ -1,9 +1,9 @@
 import React from 'react'
-import { Menu, Icon, Button } from 'antd'
-
-const { SubMenu }  = Menu
-
-class GlobalMenu extends React.Component {
+import { Layout, Icon } from 'antd'
+import GlobalMenu from './components/menu'
+import './default.css'
+const { Header, Sider, Content } = Layout
+class GlobalLayout extends React.Component {
   state = {
     collapsed: false,
     menuList: [{
@@ -22,58 +22,43 @@ class GlobalMenu extends React.Component {
       icon: 'pie-chart',
       key: '2',
     }]
-  }
+  };
 
-  toggleCollapsed = () => {
+  toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
-    })
-  }
-  getMenus = (data) => {
-    return data.map(({key, icon, name, children}) => {
-      if (!children) {
-        return (
-          <Menu.Item key={key}>
-            <Icon type={icon} />
-            <span>{name}</span>
-         </Menu.Item>
-        )
-      } else {
-        return (
-          <SubMenu key={key}
-            title={
-              <span>
-                <Icon type={icon} />
-                <span>{name}</span>
-              </span>
-            }
-          >
-          {
-            this.getMenus(children)
-          }
-         </SubMenu>
-        )
-      }
-    })
-  }
+    });
+  };
+
   render() {
-    const menuItems = this.getMenus(this.state.menuList)
     return (
-      <div style={{ width: 256 }}>
-        {/* <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
-          <Icon type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'} />
-        </Button> */}
-         <Menu
-          defaultSelectedKeys={['1-1']}
-          defaultOpenKeys={['1']}
-          mode="inline"
-          theme="light"
-          inlineCollapsed={this.state.collapsed}
-        >
-        {menuItems}
-        </Menu>
-      </div>
-    )
+      <Layout id="components-layout-demo-custom-trigger">
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+          <div className="logo" >{!this.state.collapsed ? '书签管理系统' : '书签'}</div>
+          <GlobalMenu/>
+        </Sider>
+        <Layout>
+          <Header style={{ background: '#fff', padding: 0 }}>
+            <Icon
+              className="trigger"
+              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggle}
+            />
+          </Header>
+          <Content
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              background: '#fff',
+              minHeight: 280,
+            }}
+          >
+            Content
+          </Content>
+        </Layout>
+      </Layout>
+    );
   }
 }
-export default GlobalMenu
+
+export default GlobalLayout

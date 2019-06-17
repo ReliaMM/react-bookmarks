@@ -1,11 +1,10 @@
 import React from 'react';
-import GlobalMenu from './layout/default';
-import './App.css';
-
+import GlobalLayout from './layout/default';
+import './assets/styles/common.less'
 function App() {
   return (
     <div className="App">
-      <GlobalMenu />
+      <GlobalLayout />
     </div>
   );
 }
