@@ -1,0 +1,10 @@
+.ant-card {
+  margin-bottom: 16px;
+  background: #ECECEC;
+}
+.ant-card-meta-avatar {
+  font-size: 30px;
+}
+.ant-card-meta-description {
+  @include ellipsis;
+}

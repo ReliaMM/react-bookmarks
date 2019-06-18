@@ -41,7 +41,7 @@ class GlobalLayout extends React.Component {
              <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/bookmarks" component={Bookmarks} />
-              <Redirect exact to="/" />
+              <Redirect exact to="/bookmarks" />
             </Switch>
           </Content>
         </Layout>
