@@ -10,6 +10,7 @@ module.exports = override(
   }),
   addWebpackAlias({
     'views': path.resolve(__dirname, 'src/views'),
+    'src': path.resolve(__dirname, 'src'),
   }),
   addLessLoader({
     javascriptEnabled: true,
