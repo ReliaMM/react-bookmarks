@@ -2,7 +2,7 @@ import React from 'react'
 import { HashRouter as Router, Route, Link } from "react-router-dom"
 import { Layout, Icon } from 'antd'
 import GlobalMenu from './components/menu'
-import './default.css'
+import './default.scss'
 import About from 'views/About'
 const { Header, Sider, Content } = Layout
 
