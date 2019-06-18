@@ -17,3 +17,11 @@
   text-align: center;
   line-height: 32px;
 }
+.ant-menu-item > a {
+  display: inline;
+}
+.ant-menu-inline-collapsed {
+  .ant-menu-item > a {
+    display: none;
+  }
+}

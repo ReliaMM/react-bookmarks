@@ -1,10 +1,11 @@
 import React from 'react'
-import { HashRouter as Router, Route, Link } from "react-router-dom"
+import { HashRouter as Switch, Route, Redirect } from "react-router-dom"
 import { Layout, Icon } from 'antd'
 import GlobalMenu from './components/menu'
+import Home from 'views/Home'
+import Bookmarks from 'views/Bookmarks'
 import './default.scss'
-import About from 'views/About'
-const { Header, Sider, Content } = Layout
+const { Header, Content } = Layout
 
 class GlobalLayout extends React.Component {
   state = {
@@ -20,10 +21,7 @@ class GlobalLayout extends React.Component {
   render() {
     return (
       <Layout id="components-layout-demo-custom-trigger">
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo" >{!this.state.collapsed ? '书签管理系统' : '书签'}</div>
-          <GlobalMenu/>
-        </Sider>
+        <GlobalMenu data={{collapsed: this.state.collapsed}}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
@@ -40,10 +38,11 @@ class GlobalLayout extends React.Component {
               minHeight: 280
             }}
           >
-             <Router>
-              <Link to="/about" >go to about</Link>
-              <Route path="/about" component={About} />
-            </Router>
+             <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/bookmarks" component={Bookmarks} />
+              <Redirect exact to="/" />
+            </Switch>
           </Content>
         </Layout>
       </Layout>

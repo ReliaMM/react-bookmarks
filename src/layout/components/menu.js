@@ -1,39 +1,50 @@
 import React from 'react'
-import { Menu, Icon } from 'antd'
+import { HashRouter as Router, Link } from "react-router-dom"
+import {Layout, Menu, Icon } from 'antd'
 const { SubMenu }  = Menu
+const { Sider } = Layout
 class GlobalMenu extends React.Component {
   state = {
-    collapsed: false,
+    defaultSelectedKeys: [],
+    defaultOpenKeys: [],
     menuList: [{
       name: '书签管理',
       icon: 'pie-chart',
+      path: 'bookmarks',
       key: '1',
-      children: [{
-        name: 'Vue',
-        key: '1-1'
-      }, {
-        name: 'React',
-        key: '1-2'
-      }]
-    }, {
-      name: '其他',
-      icon: 'pie-chart',
-      key: '2',
     }]
-  }
-
-  toggleCollapsed = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    })
+    // menuList: [{
+    //   name: '书签管理',
+    //   icon: 'pie-chart',
+    //   // path: 'bookmarks',
+    //   key: '1',
+    //   children: [{
+    //     name: 'Vue',
+    //     path: 'bookmarks',
+    //     key: '1-1'
+    //   }, {
+    //     name: 'React',
+    //     path: 'bookmarks',
+    //     key: '1-2'
+    //   }]
+    // }, {
+    //   name: '其他',
+    //   path: 'bookmarks',
+    //   icon: 'pie-chart',
+    //   key: '2',
+    // }]
   }
   getMenus = (data) => {
-    return data.map(({key, icon, name, children}) => {
+    return data.map(({key, icon, name, path, children}) => {
       if (!children) {
         return (
           <Menu.Item key={key}>
-            <Icon type={icon} />
-            <span>{name}</span>
+          {
+           icon ? <Icon type={icon} /> : ''
+          }
+          <Router>
+            <Link to={path} >{name}</Link>
+          </Router>
          </Menu.Item>
         )
       } else {
@@ -55,17 +66,21 @@ class GlobalMenu extends React.Component {
     })
   }
   render() {
+    const {collapsed} = this.props.data
+    console.log(collapsed)
     const menuItems = this.getMenus(this.state.menuList)
     return (
+      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <div className="logo" >{!collapsed ? '书签管理系统' : '书签'}</div>
         <Menu
-        defaultSelectedKeys={['1-1']}
-        defaultOpenKeys={['1']}
-        mode="inline"
-        theme="dark"
-        inlineCollapsed={this.state.collapsed}
-      >
-      {menuItems}
-      </Menu>
+          defaultSelectedKeys = {this.state.defaultSelectedKeys}
+          defaultOpenKeys = {this.state.defaultOpenKeys}
+          mode="inline"
+          theme="dark"
+        >
+        {menuItems}
+        </Menu>
+      </Sider>
     )
   }
 }
