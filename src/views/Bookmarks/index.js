@@ -1,7 +1,8 @@
 import React from 'react'
-import { PageHeader, Card, Col, Row, Avatar, Icon } from 'antd'
+import { Select, PageHeader, Card, Col, Row, Avatar, Icon } from 'antd'
 import './index.scss'
 import bookmarksData from 'src/data/bookmarksData.js'
+const { Option } = Select
 const { Meta } = Card
 class Bookmarks extends React.Component{
   state = {
@@ -17,7 +18,7 @@ class Bookmarks extends React.Component{
               icon ? <Icon type={icon} /> : <Avatar src = {avatar} />
             }
             title = {<a target = {'_blank'} href = {link}>{ name }</a>}
-            description = {desc}
+            description = {<span title={desc}>{desc}</span>}
           />
         </Card></Col>)
     })
@@ -36,9 +37,29 @@ class Bookmarks extends React.Component{
     })
     return str
   }
+  onChange = (value) => {
+    console.log(`selected ${value}`);
+  }
   render() {
+    const options = this.state.bookmarksData.map(({children, name}) => {
+      return children.map((d, i) => 
+        <Option key={name + i}>{d.name}</Option>
+      )
+    })
     return (
       <div>
+        <Select
+          showSearch
+          style={{ width: 200 }}
+          placeholder="搜索"
+          optionFilterProp="children"
+          onChange={this.onChange}
+          filterOption={(input, option) =>
+            option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+          }
+        >
+         {options}
+        </Select>
         {this.getBookMarkCardRow()}
       </div>
     )
