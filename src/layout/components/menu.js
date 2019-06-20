@@ -67,7 +67,6 @@ class GlobalMenu extends React.Component {
   }
   render() {
     const {collapsed} = this.props.data
-    console.log(collapsed)
     const menuItems = this.getMenus(this.state.menuList)
     return (
       <Sider trigger={null} collapsible collapsed={collapsed}>

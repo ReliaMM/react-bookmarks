@@ -1,12 +1,22 @@
 import React from 'react'
 import { Select, PageHeader, Card, Col, Row, Avatar, Icon } from 'antd'
 import './index.scss'
-import bookmarksData from 'src/data/bookmarksData.js'
+// import bookmarksData from 'src/data/bookmarksData.js'
+import {getBookMarks} from 'src/service/bookmarks'
 const { Option } = Select
 const { Meta } = Card
+
 class Bookmarks extends React.Component{
   state = {
-    bookmarksData: bookmarksData.data
+    // bookmarksData: bookmarksData.data
+  }
+  getData = () => {
+    getBookMarks({}).then(res => {
+      let { data } = res.rows
+      this.setState({
+        bookmarksData: data
+      })
+    })
   }
   getBookMarkCardCol = (data) => {
     let str = []
@@ -27,7 +37,7 @@ class Bookmarks extends React.Component{
   getBookMarkCardRow = () => {
     let data = this.state.bookmarksData
     let str = []
-    data.forEach(({name, children}, index) => {
+    data && data.forEach(({name, children}, index) => {
       str.push(<div key = {index}>
         <PageHeader title = {name}/>
         <Row gutter = {16}>
@@ -37,15 +47,21 @@ class Bookmarks extends React.Component{
     })
     return str
   }
-  onChange = (value) => {
-    console.log(`selected ${value}`);
-  }
-  render() {
-    const options = this.state.bookmarksData.map(({children, name}) => {
+  getTopSelectOptions = () => {
+    let data = this.state.bookmarksData
+    return data && data.map(({children, name}) => {
       return children.map((d, i) => 
         <Option key={name + i}>{d.name}</Option>
       )
     })
+  }
+  onChange = (value) => {
+    console.log(`selected ${value}`)
+  }
+  componentDidMount(){
+    this.getData()
+  }
+  render() {
     return (
       <div>
         <Select
@@ -58,7 +74,7 @@ class Bookmarks extends React.Component{
             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-         {options}
+         {this.getTopSelectOptions()}
         </Select>
         {this.getBookMarkCardRow()}
       </div>
