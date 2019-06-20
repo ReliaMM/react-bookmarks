@@ -2,10 +2,9 @@ import axios from 'axios'
 import { message } from 'antd'
 
 var hide = null
-//创建axios实例
+
 const service = axios.create({
-  // baseURL: process.env.BASE_API, // api的base_url
-  baseURL: 'api',
+  baseURL: process.env.NODE_ENV === 'development' ? process.env.REACT_APP_BASE_API : '',
   timeout: 10000, // 请求超时时间
   withCredentials: true // 选项表明了是否是跨域请求
 })
