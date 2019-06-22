@@ -1,8 +1,10 @@
 import React from 'react'
 import { HashRouter as Router, Link } from "react-router-dom"
 import {Layout, Menu, Icon } from 'antd'
+import avocado from 'src/assets/images/avocado.svg'
 const { SubMenu }  = Menu
 const { Sider } = Layout
+
 class GlobalMenu extends React.Component {
   state = {
     defaultSelectedKeys: [],
@@ -70,7 +72,9 @@ class GlobalMenu extends React.Component {
     const menuItems = this.getMenus(this.state.menuList)
     return (
       <Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo" >{!collapsed ? '书签管理系统' : '书签'}</div>
+      <div className="logo" >
+        <img  alt="avocado" src={avocado}/>
+      </div>
         <Menu
           defaultSelectedKeys = {this.state.defaultSelectedKeys}
           defaultOpenKeys = {this.state.defaultOpenKeys}
