@@ -1,15 +1,53 @@
 import React from 'react'
-import { Select, PageHeader, Card, Col, Row, Avatar, Icon, Button } from 'antd'
+import { Table, Switch, Select, PageHeader, Card, Col, Row, Avatar, Icon, Button } from 'antd'
 import './index.scss'
-// import bookmarksData from 'src/data/bookmarksData.js'
 import {getBookMarks} from 'src/service/bookmarks'
 const { Option } = Select
 const { Meta } = Card
 
+const columns = [
+  {
+    title: '分类',
+    dataIndex: 'type',
+    width: 80,
+    key: 'type'
+  },
+  {
+    title: '名称',
+    dataIndex: 'name',
+    width: 150,
+    key: 'name'
+  },
+  {
+    title: '描述',
+    dataIndex: 'desc',
+    key: 'desc'
+  },
+  {
+    title: '图标',
+    dataIndex: 'icon',
+    key: 'avatar',
+    render: (icon, {avatar}) => {
+      return (
+        icon ? <Icon type={icon} /> : <Avatar src = {avatar} />
+      )
+    }
+  },
+  {
+    title: '链接',
+    key: 'link',
+    dataIndex: 'link',
+    width: 150,
+    render: link => <a href={link} target={'_blank'}>{link}</a>
+  }
+];
 class Bookmarks extends React.Component{
+
   state = {
-    currentSelectDataLink: ''
-    // bookmarksData: bookmarksData.data
+    currentSelectDataLink: '',
+    isGrid: true,
+    tableDataSource: [],
+    bookmarksData: []
   }
   getData = () => {
     getBookMarks({}).then(res => {
@@ -17,6 +55,17 @@ class Bookmarks extends React.Component{
       this.setState({
         bookmarksData: data
       })
+      this.handlerTableData(data)
+    })
+  }
+  handlerTableData = (data) => {
+    let arr = data.reduce((acc, {name, children}) => {
+      return acc.concat(...children.map(item => {
+        return { ...item, type: name }
+      }))
+    }, [])
+    this.setState({
+      tableDataSource: arr
     })
   }
   getBookMarkCardCol = (data) => {
@@ -64,8 +113,22 @@ class Bookmarks extends React.Component{
       currentSelectDataLink: value
     })
   }
+  onChangeSwitch = (checked) => {
+    this.setState({
+      isGrid: checked
+    })
+  }
   componentDidMount(){
     this.getData()
+  }
+  getBookMarkTable () {
+    return (
+      <Table
+      className="section__table"
+      dataSource={this.state.tableDataSource}
+      scroll = {{y: 440}}
+      columns={columns} />
+    )
   }
   render() {
     return (
@@ -85,7 +148,10 @@ class Bookmarks extends React.Component{
         <Button type="ailer-default"
           onClick={this.enterLink}
         >跳转</Button>
-        {this.getBookMarkCardRow()}
+        <Switch className="pull-right" checkedChildren="列表" unCheckedChildren="表格" defaultChecked={this.state.isGrid}
+          onChange={this.onChangeSwitch}
+        />
+        {this.state.isGrid ? this.getBookMarkCardRow() : this.getBookMarkTable()}
       </div>
     )
   }
