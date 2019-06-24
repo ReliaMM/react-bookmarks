@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select, PageHeader, Card, Col, Row, Avatar, Icon } from 'antd'
+import { Select, PageHeader, Card, Col, Row, Avatar, Icon, Button } from 'antd'
 import './index.scss'
 // import bookmarksData from 'src/data/bookmarksData.js'
 import {getBookMarks} from 'src/service/bookmarks'
@@ -8,6 +8,7 @@ const { Meta } = Card
 
 class Bookmarks extends React.Component{
   state = {
+    currentSelectDataLink: ''
     // bookmarksData: bookmarksData.data
   }
   getData = () => {
@@ -51,12 +52,17 @@ class Bookmarks extends React.Component{
     let data = this.state.bookmarksData
     return data && data.map(({children, name}) => {
       return children.map((d, i) => 
-        <Option key={name + i}>{d.name}</Option>
+        <Option key={d.link} data-link={d.link}>{d.name}</Option>
       )
     })
   }
+  enterLink = () => {
+    window.open(this.state.currentSelectDataLink)
+  }
   onChange = (value) => {
-    console.log(`selected ${value}`)
+    this.setState({
+      currentSelectDataLink: value
+    })
   }
   componentDidMount(){
     this.getData()
@@ -76,6 +82,9 @@ class Bookmarks extends React.Component{
         >
          {this.getTopSelectOptions()}
         </Select>
+        <Button type="ailer-default"
+          onClick={this.enterLink}
+        >跳转</Button>
         {this.getBookMarkCardRow()}
       </div>
     )

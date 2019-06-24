@@ -22,7 +22,10 @@ module.exports = override(
     config.module.rules[2].oneOf[5].use.push({
         loader: 'sass-resources-loader',
         options: {
-          resources:  path.resolve(__dirname, 'src/assets/styles/common.scss')
+          resources:  [
+            path.resolve(__dirname, 'src/assets/styles/variables.scss'),
+            path.resolve(__dirname, 'src/assets/styles/mixins.scss')
+          ]
         }
     })
     return config
