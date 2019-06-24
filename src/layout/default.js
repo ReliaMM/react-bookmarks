@@ -1,6 +1,6 @@
 import React from 'react'
 import { HashRouter as Switch, Route, Redirect } from "react-router-dom"
-import { Layout, Icon } from 'antd'
+import { Layout, Icon, BackTop } from 'antd'
 import GlobalMenu from './components/menu'
 import Home from 'views/Home'
 import Bookmarks from 'views/Bookmarks'
@@ -31,6 +31,7 @@ class GlobalLayout extends React.Component {
             />
           </Header>
           <Content
+            id="content"
             style={{
               margin: '24px 16px',
               padding: 24,
@@ -45,6 +46,11 @@ class GlobalLayout extends React.Component {
             </Switch>
           </Content>
         </Layout>
+        <BackTop 
+          target={()=>{
+            return document.getElementById("content")
+          }}
+        />
       </Layout>
     )
   }
