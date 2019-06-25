@@ -37,7 +37,6 @@ class BookmarksCard extends React.Component{
   }
 
   render() {
-    console.log(',,',this.context)
     let { bookmarksData } = this.props.data
     return (
       this.getBookMarkCardRow(bookmarksData)
