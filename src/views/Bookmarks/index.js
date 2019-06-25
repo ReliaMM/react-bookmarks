@@ -1,52 +1,15 @@
 import React from 'react'
-import { Table, Switch, Select, PageHeader, Card, Col, Row, Avatar, Icon, Button } from 'antd'
+import { Switch, Select, Button } from 'antd'
+import { getBookMarks } from 'src/service/bookmarks'
+import BookmarksTable from './component/table'
+import BookmarksCard from './component/card'
 import './index.scss'
-import {getBookMarks} from 'src/service/bookmarks'
 const { Option } = Select
-const { Meta } = Card
 
-const columns = [
-  {
-    title: '分类',
-    dataIndex: 'type',
-    width: 80,
-    key: 'type'
-  },
-  {
-    title: '名称',
-    dataIndex: 'name',
-    width: 150,
-    key: 'name'
-  },
-  {
-    title: '描述',
-    dataIndex: 'desc',
-    key: 'desc'
-  },
-  {
-    title: '图标',
-    dataIndex: 'icon',
-    key: 'avatar',
-    render: (icon, {avatar}) => {
-      return (
-        icon ? <Icon type={icon} /> : <Avatar src = {avatar} />
-      )
-    }
-  },
-  {
-    title: '链接',
-    key: 'link',
-    dataIndex: 'link',
-    width: 150,
-    render: link => <a href={link} target={'_blank'}>{link}</a>
-  }
-];
 class Bookmarks extends React.Component{
-
   state = {
     currentSelectDataLink: '',
     isGrid: true,
-    tableDataSource: [],
     bookmarksData: []
   }
   getData = () => {
@@ -55,47 +18,7 @@ class Bookmarks extends React.Component{
       this.setState({
         bookmarksData: data
       })
-      this.handlerTableData(data)
     })
-  }
-  handlerTableData = (data) => {
-    let arr = data.reduce((acc, {name, children}) => {
-      return acc.concat(...children.map(item => {
-        return { ...item, type: name }
-      }))
-    }, [])
-    this.setState({
-      tableDataSource: arr
-    })
-  }
-  getBookMarkCardCol = (data) => {
-    let str = []
-    data.forEach(({ name, icon, avatar, link, desc }, index) => {
-      str.push(<Col key = {index} span = {6}>
-        <Card bordered = {false}>
-          <Meta
-            avatar = {
-              icon ? <Icon type={icon} /> : <Avatar src = {avatar} />
-            }
-            title = {<a target = {'_blank'} href = {link}>{ name }</a>}
-            description = {<span title={desc}>{desc}</span>}
-          />
-        </Card></Col>)
-    })
-    return str
-  }
-  getBookMarkCardRow = () => {
-    let data = this.state.bookmarksData
-    let str = []
-    data && data.forEach(({name, children}, index) => {
-      str.push(<div key = {index}>
-        <PageHeader title = {name}/>
-        <Row gutter = {16}>
-          {this.getBookMarkCardCol(children)}
-        </Row>
-      </div>)
-    })
-    return str
   }
   getTopSelectOptions = () => {
     let data = this.state.bookmarksData
@@ -121,15 +44,6 @@ class Bookmarks extends React.Component{
   componentDidMount(){
     this.getData()
   }
-  getBookMarkTable () {
-    return (
-      <Table
-      className="section__table"
-      dataSource={this.state.tableDataSource}
-      scroll = {{y: 440}}
-      columns={columns} />
-    )
-  }
   render() {
     return (
       <div>
@@ -151,7 +65,9 @@ class Bookmarks extends React.Component{
         <Switch className="pull-right" checkedChildren="列表" unCheckedChildren="表格" defaultChecked={this.state.isGrid}
           onChange={this.onChangeSwitch}
         />
-        {this.state.isGrid ? this.getBookMarkCardRow() : this.getBookMarkTable()}
+        {this.state.isGrid 
+          ? <BookmarksCard data={{bookmarksData: this.state.bookmarksData}}/>
+          : <BookmarksTable data={{tableData: this.state.bookmarksData}}/> }
       </div>
     )
   }
