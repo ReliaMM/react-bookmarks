@@ -1,7 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { PageHeader, Card, Col, Row, Avatar, Icon } from 'antd'
 const { Meta } = Card
 class BookmarksCard extends React.Component{
+  static contextTypes = {
+    currentSelectLink: PropTypes.string
+  }
   getBookMarkCardCol = (data) => {
     let str = []
     data.forEach(({ name, icon, avatar, link, desc }, index) => {
@@ -33,6 +37,7 @@ class BookmarksCard extends React.Component{
   }
 
   render() {
+    console.log(',,',this.context)
     let { bookmarksData } = this.props.data
     return (
       this.getBookMarkCardRow(bookmarksData)

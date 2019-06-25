@@ -4,9 +4,8 @@ const { Option } = Select
 
 class BookmarksTop extends React.Component {
   state = {
-    currentSelectDataLink: ''
+    currentSelectLink : ''
   }
-  
   getTopSelectOptions = (data) => {
     return data && data.map(({children, name}) => {
       return children.map((d, i) => 
@@ -16,12 +15,13 @@ class BookmarksTop extends React.Component {
   }
 
   enterLink = () => {
-    window.open(this.state.currentSelectDataLink)
+    window.open(this.state.currentSelectLink)
   }
 
   onChange = (value) => {
+    this.props.setSelectLink(value)
     this.setState({
-      currentSelectDataLink: value
+      currentSelectLink: value
     })
   }
 
