@@ -5,23 +5,19 @@ const columns = [
     title: '分类',
     dataIndex: 'type',
     width: 80,
-    key: 'type'
   },
   {
     title: '名称',
     dataIndex: 'name',
-    width: 150,
-    key: 'name'
+    width: 150
   },
   {
     title: '描述',
-    dataIndex: 'desc',
-    key: 'desc'
+    dataIndex: 'desc'
   },
   {
     title: '图标',
     dataIndex: 'icon',
-    key: 'avatar',
     render: (icon, {avatar}) => {
       return (
         icon ? <Icon type={icon} /> : <Avatar src = {avatar} />
@@ -30,7 +26,6 @@ const columns = [
   },
   {
     title: '链接',
-    key: 'link',
     dataIndex: 'link',
     width: 150,
     render: link => <a href={link} target={'_blank'}>{link}</a>
@@ -40,6 +35,7 @@ class BookmarksTable extends React.Component{
   state = {
     tableDataSource: []
   }
+  
   handlerTableData = (data) => {
     let arr = data.reduce((acc, {name, children}) => {
       return acc.concat(...children.map(item => {
@@ -50,6 +46,7 @@ class BookmarksTable extends React.Component{
       tableDataSource: arr
     })
   }
+
   getBookMarkTable () {
     return (
       <Table
@@ -59,10 +56,12 @@ class BookmarksTable extends React.Component{
       columns={columns} />
     )
   }
+
   componentDidMount() {
-    let { tableData } = this.props.data
-    this.handlerTableData(tableData)
+    let { bookmarksData } = this.props.data
+    this.handlerTableData(bookmarksData)
   }
+
   render() {
     return (
       this.getBookMarkTable()
