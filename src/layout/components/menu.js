@@ -2,41 +2,47 @@ import React from 'react'
 import { HashRouter as Router, Link } from "react-router-dom"
 import {Layout, Menu, Icon } from 'antd'
 import avocado from 'src/assets/images/avocado.svg'
+import { withRouter} from  'react-router-dom'
 const { SubMenu }  = Menu
 const { Sider } = Layout
-
 class GlobalMenu extends React.Component {
+  
   state = {
-    defaultSelectedKeys: [],
-    defaultOpenKeys: [],
     menuList: [{
       name: '书签管理',
-      icon: 'pie-chart',
-      path: 'bookmarks',
+      icon: 'unordered-list',
+      path: '/bookmarks',
       key: '1',
+    },{
+      name: '可视化工具',
+      icon: 'pie-chart',
+      key: '2',
+      path: '/data',
+      children: [{
+        name: '图表',
+        path: '/chart',
+        key: '2-1'
+      }]
     }]
-    // menuList: [{
-    //   name: '书签管理',
-    //   icon: 'pie-chart',
-    //   // path: 'bookmarks',
-    //   key: '1',
-    //   children: [{
-    //     name: 'Vue',
-    //     path: 'bookmarks',
-    //     key: '1-1'
-    //   }, {
-    //     name: 'React',
-    //     path: 'bookmarks',
-    //     key: '1-2'
-    //   }]
-    // }, {
-    //   name: '其他',
-    //   path: 'bookmarks',
-    //   icon: 'pie-chart',
-    //   key: '2',
-    // }]
   }
-  getMenus = (data) => {
+  setDefaultMenu = (lacationHash) => {
+    let hash = lacationHash.split('/')
+    let parentHash = hash[1]
+    let childHash = hash[2]
+    let defaultOpenKeys = ''
+    let defaultSelectedKeys = ''
+    if (parentHash) {
+      defaultOpenKeys = this.state.menuList.filter(item => item.path === '/' + parentHash)[0]
+    }
+    if (childHash) {
+      defaultSelectedKeys = defaultOpenKeys.children.filter(item => item.path === '/' + childHash)[0]
+    }
+    return {
+      defaultOpenKeys: [defaultOpenKeys ? defaultOpenKeys.key : ''],
+      defaultSelectedKeys: [defaultSelectedKeys ? defaultSelectedKeys.key : defaultOpenKeys ? defaultOpenKeys.key : '']
+    }
+  }
+  getMenus = (data, ParentPath = '') => {
     return data.map(({key, icon, name, path, children}) => {
       if (!children) {
         return (
@@ -45,7 +51,7 @@ class GlobalMenu extends React.Component {
            icon ? <Icon type={icon} /> : ''
           }
           <Router>
-            <Link to={path} >{name}</Link>
+            <Link to={`${ParentPath}${path}`} >{name}</Link>
           </Router>
          </Menu.Item>
         )
@@ -60,24 +66,27 @@ class GlobalMenu extends React.Component {
             }
           >
           {
-            this.getMenus(children)
+            this.getMenus(children, path)
           }
          </SubMenu>
         )
       }
     })
   }
+
   render() {
-    const {collapsed} = this.props.data
+    let { location } = this.props
+    const { collapsed} = this.props.data
     const menuItems = this.getMenus(this.state.menuList)
+    let { defaultOpenKeys, defaultSelectedKeys = ''} = this.setDefaultMenu(location.hash)
     return (
       <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="logo" >
         <img  alt="avocado" src={avocado}/>
       </div>
         <Menu
-          defaultSelectedKeys = {this.state.defaultSelectedKeys}
-          defaultOpenKeys = {this.state.defaultOpenKeys}
+          defaultSelectedKeys = {defaultSelectedKeys}
+          defaultOpenKeys = {defaultOpenKeys}
           mode="inline"
           theme="dark"
         >
@@ -87,4 +96,4 @@ class GlobalMenu extends React.Component {
     )
   }
 }
-export default GlobalMenu
+export default withRouter(GlobalMenu)

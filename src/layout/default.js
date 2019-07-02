@@ -1,19 +1,16 @@
 import { connect } from 'react-redux'
 import React from 'react'
-import { HashRouter as Switch, Route, Redirect } from "react-router-dom"
+import { HashRouter as Switch, Route } from "react-router-dom"
 import { Layout, Icon, BackTop } from 'antd'
 import GlobalMenu from './components/menu'
 import Home from 'views/Home'
 import Bookmarks from 'views/Bookmarks'
+import dataChart from 'views/Data/Chart'
 import { setVisibilityAsider } from '../actions'
 import './default.scss'
 const { Header, Content } = Layout
 class GlobalLayout extends React.Component {
-
-  state = {
-    collapsed: false
-  }
-
+  
   toggle = () => {
     const { visibilityAsider, dispatch } = this.props
     dispatch(setVisibilityAsider(!visibilityAsider))
@@ -41,11 +38,17 @@ class GlobalLayout extends React.Component {
               minHeight: 280
             }}
           >
-             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/bookmarks" component={Bookmarks} />
-              <Redirect exact to="/bookmarks" />
-            </Switch>
+             {/* <Switch> */}
+              <Switch>
+                <Route exact path="/" component={Home}/>
+                <Route path="/bookmarks" component={Bookmarks} />
+                <Route path="data">
+                  <Route path="/data/chart" component={dataChart}/>
+                </Route>
+                {/* <Redirect exact to="/bookmarks" /> */}
+              </Switch>
+              {/* </Route> */}
+            {/* </Switch> */}
           </Content>
         </Layout>
         <BackTop 

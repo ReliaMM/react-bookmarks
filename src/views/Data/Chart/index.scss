@@ -1,0 +1,19 @@
+.ant-card {
+  margin-bottom: 16px;
+  background: #ECECEC;
+}
+.ant-card-meta-avatar {
+  font-size: 30px;
+}
+.ant-card-meta-description {
+  @include ellipsis;
+}
+.ant-page-header {
+  padding: 16px 0;
+}
+.ant-btn-ailer-default {
+  margin-left: 10px;
+}
+.section__table {
+  margin-top: 20px
+}

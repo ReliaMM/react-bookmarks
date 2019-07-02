@@ -1,4 +1,4 @@
-const visibilityAsider = (state = true, action) => {
+const visibilityAsider = (state = false, action) => {
   switch (action.type) {
     case 'SET_VISIBILITY_ASIDER':
       return action.collapsed
