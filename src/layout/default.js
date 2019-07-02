@@ -1,32 +1,34 @@
+import { connect } from 'react-redux'
 import React from 'react'
 import { HashRouter as Switch, Route, Redirect } from "react-router-dom"
 import { Layout, Icon, BackTop } from 'antd'
 import GlobalMenu from './components/menu'
 import Home from 'views/Home'
 import Bookmarks from 'views/Bookmarks'
+import { setVisibilityAsider } from '../actions'
 import './default.scss'
 const { Header, Content } = Layout
-
 class GlobalLayout extends React.Component {
+
   state = {
     collapsed: false
   }
 
   toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    })
+    const { visibilityAsider, dispatch } = this.props
+    dispatch(setVisibilityAsider(!visibilityAsider))
   }
 
   render() {
+    const { visibilityAsider} = this.props
     return (
       <Layout id="components-layout-demo-custom-trigger">
-        <GlobalMenu data={{collapsed: this.state.collapsed}}/>
+        <GlobalMenu data={{collapsed: visibilityAsider}}/>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
               className="trigger"
-              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              type={ visibilityAsider ? 'menu-unfold' : 'menu-fold'}
               onClick={this.toggle}
             />
           </Header>
@@ -56,4 +58,11 @@ class GlobalLayout extends React.Component {
   }
 }
 
-export default GlobalLayout
+function mapStateToProps(state) {
+  const { visibilityAsider } = state
+  return {
+    visibilityAsider
+  }
+}
+
+export default connect(mapStateToProps)(GlobalLayout)
