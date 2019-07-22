@@ -4,7 +4,7 @@ import { message } from 'antd'
 var hide = null
 
 const service = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' ? process.env.REACT_APP_BASE_API : '',
+  baseURL: process.env.NODE_ENV === 'development' ? process.env.REACT_APP_PROXY_URL : '',
   timeout: 10000, // 请求超时时间
   withCredentials: true // 选项表明了是否是跨域请求
 })

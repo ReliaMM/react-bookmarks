@@ -13,7 +13,7 @@ class GlobalMenu extends React.Component {
       icon: 'unordered-list',
       path: '/bookmarks',
       key: '1',
-    },{
+    }, {
       name: '可视化工具',
       icon: 'pie-chart',
       key: '2',
@@ -22,6 +22,16 @@ class GlobalMenu extends React.Component {
         name: '图表',
         path: '/chart',
         key: '2-1'
+      }]
+    }, {
+      name: '热力图',
+      icon: 'heat-map',
+      key: '3',
+      path: '/heatMap',
+      children: [{
+        name: '百度',
+        path: '/baidu',
+        key: '3-1'
       }]
     }]
   }

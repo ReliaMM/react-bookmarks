@@ -5,7 +5,8 @@ import { Layout, Icon, BackTop } from 'antd'
 import GlobalMenu from './components/menu'
 import Home from 'views/Home'
 import Bookmarks from 'views/Bookmarks'
-import dataChart from 'views/Data/Chart'
+import DataChart from 'views/Data/Chart'
+import HeatMapBaidu from 'views/HeatMap/Baidu'
 import { setVisibilityAsider } from '../actions'
 import './default.scss'
 const { Header, Content } = Layout
@@ -43,7 +44,10 @@ class GlobalLayout extends React.Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/bookmarks" component={Bookmarks} />
                 <Route path="data">
-                  <Route path="/data/chart" component={dataChart}/>
+                  <Route path="/data/chart" component={DataChart}/>
+                </Route>
+                <Route path="heatMap">
+                  <Route path="/heatMap/baidu" component={HeatMapBaidu}/>
                 </Route>
                 {/* <Redirect exact to="/bookmarks" /> */}
               </Switch>
