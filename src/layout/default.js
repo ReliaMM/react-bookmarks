@@ -7,6 +7,7 @@ import Home from 'views/Home'
 import Bookmarks from 'views/Bookmarks'
 import DataChart from 'views/Data/Chart'
 import HeatMapBaidu from 'views/HeatMap/Baidu'
+import Path from 'views/Path'
 import { setVisibilityAsider } from '../actions'
 import './default.scss'
 const { Header, Content } = Layout
@@ -49,6 +50,7 @@ class GlobalLayout extends React.Component {
                 <Route path="heatMap">
                   <Route path="/heatMap/baidu" component={HeatMapBaidu}/>
                 </Route>
+                <Route path="/path" component={Path} />
                 {/* <Redirect exact to="/bookmarks" /> */}
               </Switch>
               {/* </Route> */}

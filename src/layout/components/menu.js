@@ -29,10 +29,15 @@ class GlobalMenu extends React.Component {
       key: '3',
       path: '/heatMap',
       children: [{
-        name: '百度',
+        name: '百度-高德',
         path: '/baidu',
         key: '3-1'
       }]
+    }, {
+      name: '路线排化',
+      icon: 'radius-setting',
+      path: '/path',
+      key: '4',
     }]
   }
   setDefaultMenu = (lacationHash) => {
