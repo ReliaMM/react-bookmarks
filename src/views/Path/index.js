@@ -1,5 +1,4 @@
 import React from 'react'
-import { Row, Col, Button, Card, Tabs } from 'antd'
 import './index.scss'
 
 class PathBaidu extends React.Component {
